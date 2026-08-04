@@ -27,7 +27,7 @@ Menyn till vänster är indelad i tre delar:
 
 | Vad | Vad du kan ändra |
 | --- | --- |
-| **Träningsgrupper** | Grupperna (Barn, Ungdomar, Juniorer, Vuxna Steg 1 och 2, Sparring): namn, åldersspann, beskrivning och färg i schemat. |
+| **Träningsgrupper** | Grupperna (Barn, Ungdomar, Juniorer, Vuxna, Sparring): namn, åldersspann, beskrivning och färg i schemat. |
 | **Schema** | Ett pass per post: dag, tid, grupp och termin. Lägg till, ändra tid eller ta bort — schemat på sajten uppdateras automatiskt. |
 | **Priser** | Terminsavgift per grupp. Medlemsavgiften ligger under Inställningar. |
 | **Terminer** | Vår-, höst- och sommarterminer. **Viktigt:** schemat och priserna som visas på sajten är de som hör till den termin som är markerad som **Aktiv**. Markera bara en termin som aktiv åt gången. |
