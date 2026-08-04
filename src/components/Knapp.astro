@@ -1,0 +1,52 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primar' | 'sekundar' | 'ljus';
+  extern?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primar',
+  extern = false,
+  class: klass = '',
+} = Astro.props;
+
+const bas =
+  'inline-flex items-center justify-center gap-2 px-6 py-3.5 font-display text-base uppercase tracking-wider transition-colors duration-150';
+
+const varianter: Record<string, string> = {
+  primar: 'bg-brass text-ink hover:bg-brass-bright',
+  sekundar:
+    'border-2 border-current text-bone hover:bg-bone hover:text-ink hover:border-bone',
+  ljus: 'border-2 border-ink text-ink hover:bg-ink hover:text-bone',
+};
+
+const externAttr = extern
+  ? { target: '_blank', rel: 'noopener noreferrer' }
+  : {};
+---
+
+<a href={href} class={`${bas} ${varianter[variant]} ${klass}`} {...externAttr}>
+  <slot />
+  {
+    extern && (
+      <svg
+        viewBox="0 0 16 16"
+        class="h-3.5 w-3.5 shrink-0"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M6 2h8v8M14 2 6.5 9.5M11 11.5V14H2V5h2.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    )
+  }
+</a>

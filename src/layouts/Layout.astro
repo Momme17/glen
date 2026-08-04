@@ -1,0 +1,127 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {
+  installningar,
+  aktivTermin,
+  schemaForTermin,
+  type Veckodag,
+} from '../lib/innehall';
+
+interface Props {
+  titel: string;
+  beskrivning: string;
+  /** Rotrelativ sökväg till delningsbild. */
+  ogBild?: string;
+  typ?: 'website' | 'article';
+  publicerad?: Date;
+}
+
+const {
+  titel,
+  beskrivning,
+  ogBild = '/og-bild.png',
+  typ = 'website',
+  publicerad,
+} = Astro.props;
+
+const kanonisk = new URL(Astro.url.pathname, Astro.site).href;
+const ogBildAbsolut = new URL(ogBild, Astro.site).href;
+
+// --- Strukturerad data ----------------------------------------------------
+const SCHEMA_DAG: Record<Veckodag, string> = {
+  mandag: 'Monday',
+  tisdag: 'Tuesday',
+  onsdag: 'Wednesday',
+  torsdag: 'Thursday',
+  fredag: 'Friday',
+  lordag: 'Saturday',
+  sondag: 'Sunday',
+};
+
+const oppettider = schemaForTermin(aktivTermin?.slug).flatMap((dag) =>
+  dag.rader.map((rad) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: SCHEMA_DAG[dag.dag],
+    opens: rad.start,
+    closes: rad.slut,
+  })),
+);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsClub',
+  name: 'Borgen Fight Center',
+  description: installningar.seoBeskrivning,
+  url: Astro.site?.href,
+  email: installningar.epost,
+  slogan: 'Den lilla klubben med det stora hjärtat',
+  sport: ['Kickboxning', 'Thaiboxning', 'K1'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: installningar.gatuadress,
+    postalCode: installningar.postnummer,
+    addressLocality: installningar.ort,
+    addressCountry: 'SE',
+  },
+  openingHoursSpecification: oppettider,
+  sameAs: [
+    installningar.facebook,
+    installningar.instagram,
+    installningar.tiktok,
+  ].filter(Boolean),
+};
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={kanonisk} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{titel}</title>
+    <meta name="description" content={beskrivning} />
+
+    <meta property="og:type" content={typ} />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={beskrivning} />
+    <meta property="og:url" content={kanonisk} />
+    <meta property="og:image" content={ogBildAbsolut} />
+    <meta property="og:locale" content="sv_SE" />
+    <meta property="og:site_name" content="Borgen Fight Center" />
+    {
+      publicerad && (
+        <meta
+          property="article:published_time"
+          content={publicerad.toISOString()}
+        />
+      )
+    }
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titel} />
+    <meta name="twitter:description" content={beskrivning} />
+    <meta name="twitter:image" content={ogBildAbsolut} />
+
+    <meta name="theme-color" content="#10141b" />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd)}
+      is:inline
+    />
+  </head>
+
+  <body>
+    <a href="#innehall" class="skip-link">Hoppa till innehållet</a>
+    <Header />
+    <main id="innehall">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

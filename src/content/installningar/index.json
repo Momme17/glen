@@ -1,0 +1,33 @@
+{
+  "heroRubrik": "Den lilla klubben med det stora hjärtat",
+  "heroText": "Borgen Fight Center är en ideell kampsportsklubb i Malmö. Hos oss tränar barn från 7 år, ungdomar, juniorer och vuxna — från den som aldrig satt på sig ett par handskar till den som tävlar internationellt.",
+  "discipliner": ["Kickboxning", "Thaiboxning", "K1"],
+  "ctaText": "Prova gratis 1 vecka",
+  "sportadminUrl": "https://entry.sportadmin.se/groupsOverview?uid=-o-qdJ",
+
+  "omRubrik": "Om oss",
+  "omText": "Borgen Fight Center är en gemenskap dedikerad till kampsport. Med rötter i kampsportens rika tradition strävar vi efter att erbjuda en inspirerande och inkluderande miljö för alla som delar vår passion. Vi är en ideell förening, vilket betyder att avgifterna hålls låga och att allt överskott går tillbaka in i verksamheten. Alla som tränar hos oss ska känna sig välkomna — oavsett ålder, kön, bakgrund eller hur vältränad man är när man kliver in genom dörren.",
+
+  "trygghetRubrik": "Trygghet för barn och ungdomar",
+  "trygghetText": "Vi begär kontinuerligt in polisutdrag för alla tränare som arbetar med barn och ungdomar. Vid all träning med ungdomar är alltid minst två tränare närvarande. Vi publicerar aldrig bilder på barn utan att först ha inhämtat samtycke från vårdnadshavare. Har du frågor om hur vi arbetar med trygghet är du alltid välkommen att höra av dig till styrelsen.",
+
+  "medlemsavgift": 200,
+  "prisNotering": "Nya medlemmar betalar medlemsavgiften på 200 kr det första året utöver terminsavgiften. Medlemsavgiften gäller i tolv månader och ingår i föreningens försäkring.",
+
+  "epost": "borgenfightcenter@gmail.com",
+  "gatuadress": "Köpenhamnsvägen 5",
+  "postnummer": "217 43",
+  "ort": "Malmö",
+  "kartlank": "https://www.google.com/maps/search/?api=1&query=K%C3%B6penhamnsv%C3%A4gen+5%2C+217+43+Malm%C3%B6",
+
+  "facebook": "https://www.facebook.com/borgenfightcenter",
+  "instagram": "https://www.instagram.com/borgen_fight_center",
+  "tiktok": "https://www.tiktok.com/@borgenfightcenter",
+
+  "sponsorRubrik": "Stöd klubben genom Gräsroten",
+  "sponsorText": "Genom Svenska Spels Gräsroten kan du stödja Borgen Fight Center utan att det kostar dig något. Välj oss som din förening så går en del av Svenska Spels överskott till vår ungdomsverksamhet.",
+  "sponsorLank": "https://www.svenskaspel.se/grasroten",
+
+  "seoTitel": "Borgen Fight Center — kickboxning, thaiboxning och K1 i Malmö",
+  "seoBeskrivning": "Ideell kampsportsklubb i Malmö. Kickboxning, thaiboxning och K1 för barn från 7 år, ungdomar och vuxna. Prova gratis i en vecka."
+}

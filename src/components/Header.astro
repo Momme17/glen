@@ -1,0 +1,111 @@
+---
+import Logotyp from './Logotyp.astro';
+import { installningar } from '../lib/innehall';
+
+const lankar = [
+  { href: '/#om-oss', text: 'Om oss' },
+  { href: '/#instruktorer', text: 'Instruktörer' },
+  { href: '/#schema', text: 'Schema' },
+  { href: '/#priser', text: 'Priser' },
+  { href: '/#nyheter', text: 'Nyheter' },
+  { href: '/#kontakt', text: 'Kontakt' },
+];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-ink-line/60 bg-ink/95 text-bone backdrop-blur-sm"
+>
+  <div class="shell flex h-16 items-center justify-between gap-4 md:h-20">
+    <a
+      href="/"
+      class="text-bone transition-colors hover:text-brass-bright"
+      aria-label="Borgen Fight Center — till startsidan"
+    >
+      <Logotyp />
+    </a>
+
+    <nav aria-label="Huvudmeny" class="hidden lg:block">
+      <ul class="flex items-center gap-7">
+        {
+          lankar.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="text-sm font-medium tracking-wide text-bone/80 transition-colors hover:text-brass-bright"
+              >
+                {l.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a
+      href={installningar.sportadminUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hidden bg-brass px-5 py-2.5 font-display text-sm tracking-wider text-ink uppercase transition-colors hover:bg-brass-bright sm:inline-block"
+    >
+      {installningar.ctaText}
+    </a>
+
+    <!-- Mobilmeny: <details> ger utfällbar meny helt utan JavaScript. -->
+    <details class="group relative lg:hidden">
+      <summary
+        class="flex h-11 w-11 cursor-pointer list-none items-center justify-center border border-ink-line"
+        aria-label="Öppna meny"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="h-5 w-5"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M3 6h18M3 12h18M3 18h18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            class="group-open:hidden"></path>
+          <path
+            d="M5 5l14 14M19 5 5 19"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            class="hidden group-open:block"></path>
+        </svg>
+      </summary>
+
+      <nav
+        aria-label="Huvudmeny, mobil"
+        class="absolute right-0 top-full mt-2 w-60 border border-ink-line bg-ink-soft p-2 shadow-2xl"
+      >
+        <ul>
+          {
+            lankar.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class="block px-4 py-3 text-sm font-medium text-bone/85 transition-colors hover:bg-ink hover:text-brass-bright"
+                >
+                  {l.text}
+                </a>
+              </li>
+            ))
+          }
+          <li class="mt-2 border-t border-ink-line pt-2 sm:hidden">
+            <a
+              href={installningar.sportadminUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block bg-brass px-4 py-3 text-center font-display text-sm tracking-wider text-ink uppercase"
+            >
+              {installningar.ctaText}
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

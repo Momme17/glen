@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import Rubrik from './Rubrik.astro';
+import { svensktDatum, isoDatum } from '../lib/innehall';
+
+interface Props {
+  /** Begränsa antalet nyheter, till exempel på startsidan. */
+  antal?: number;
+}
+
+const { antal } = Astro.props;
+
+const alla = (await getCollection('nyheter', ({ data }) => data.publicerad)).sort(
+  (a, b) => b.data.datum.getTime() - a.data.datum.getTime(),
+);
+
+const nyheter = antal ? alla.slice(0, antal) : alla;
+---
+
+<section id="nyheter" class="bg-bone-dim py-[var(--spacing-section)]">
+  <div class="shell">
+    <Rubrik etikett="Vad händer">
+      Nyheter
+      <p slot="under">
+        Terminsstarter, tävlingar och annat från klubben.
+      </p>
+    </Rubrik>
+
+    {
+      nyheter.length === 0 ? (
+        <p class="text-lead mt-12 text-ink/60">Inga nyheter publicerade ännu.</p>
+      ) : (
+        <ul class="mt-14 grid gap-px border border-bone-line bg-bone-line md:grid-cols-2 lg:grid-cols-3">
+          {nyheter.map(({ id, data }) => (
+            <li class="bg-bone">
+              <a
+                href={`/nyheter/${id}/`}
+                class="group flex h-full flex-col p-7 transition-colors hover:bg-ink hover:text-bone"
+              >
+                {data.omslagsbild && (
+                  <img
+                    src={data.omslagsbild}
+                    alt={data.bildtext || ''}
+                    loading="lazy"
+                    decoding="async"
+                    class="mb-5 aspect-[3/2] w-full object-cover"
+                  />
+                )}
+
+                <time
+                  datetime={isoDatum(data.datum)}
+                  class="eyebrow text-brass group-hover:text-brass-bright"
+                >
+                  {svensktDatum(data.datum)}
+                </time>
+
+                <h3 class="text-h3 mt-3">{data.titel}</h3>
+
+                <p class="mt-3 text-[0.95rem] text-ink/70 group-hover:text-bone/75">
+                  {data.ingress}
+                </p>
+
+                <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold">
+                  Läs mer
+                  <svg
+                    viewBox="0 0 16 16"
+                    class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path
+                      d="M2 8h11M9 4l4 4-4 4"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>

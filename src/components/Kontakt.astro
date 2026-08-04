@@ -1,0 +1,115 @@
+---
+import Rubrik from './Rubrik.astro';
+import { installningar } from '../lib/innehall';
+
+const adress = `${installningar.gatuadress}, ${installningar.postnummer} ${installningar.ort}`;
+const kartUrl = `https://maps.google.com/maps?q=${encodeURIComponent(adress)}&z=15&output=embed`;
+
+const sociala = [
+  { namn: 'Facebook', url: installningar.facebook },
+  { namn: 'Instagram', url: installningar.instagram },
+  { namn: 'TikTok', url: installningar.tiktok },
+].filter((s): s is { namn: string; url: string } => Boolean(s.url));
+---
+
+<section id="kontakt" class="bg-ink py-[var(--spacing-section)] text-bone">
+  <div class="shell">
+    <Rubrik etikett="Hitta hit" ljus>
+      Kontakt
+      <p slot="under">
+        Vi håller till på Köpenhamnsvägen i Malmö. Kom förbi, eller hör av dig
+        först om du hellre vill det.
+      </p>
+    </Rubrik>
+
+    <div class="mt-14 grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <dl class="grid gap-7">
+          <div>
+            <dt class="eyebrow text-bone/45">Adress</dt>
+            <dd class="mt-2">
+              <a
+                href={installningar.kartlank ?? '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-h3 underline decoration-brass decoration-2 underline-offset-4 transition-colors hover:text-brass-bright"
+              >
+                <address class="not-italic">
+                  {installningar.gatuadress}<br />
+                  {installningar.postnummer}
+                  {installningar.ort}
+                </address>
+              </a>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="eyebrow text-bone/45">E-post</dt>
+            <dd class="mt-2">
+              <a
+                href={`mailto:${installningar.epost}`}
+                class="text-h3 underline decoration-brass decoration-2 underline-offset-4 transition-colors hover:text-brass-bright"
+              >
+                {installningar.epost}
+              </a>
+            </dd>
+          </div>
+
+          {
+            sociala.length > 0 && (
+              <div>
+                <dt class="eyebrow text-bone/45">Följ oss</dt>
+                <dd class="mt-3">
+                  <ul class="flex flex-wrap gap-2.5">
+                    {sociala.map((s) => (
+                      <li>
+                        <a
+                          href={s.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-block border border-ink-line px-4 py-2 text-sm font-semibold transition-colors hover:border-brass hover:text-brass-bright"
+                        >
+                          {s.namn}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+
+        {
+          installningar.sponsorLank && (
+            <aside class="mt-10 border-t-4 border-brass bg-ink-soft p-7">
+              <h3 class="text-h3">{installningar.sponsorRubrik}</h3>
+              {installningar.sponsorText && (
+                <p class="mt-3 text-[0.95rem] text-bone/70">
+                  {installningar.sponsorText}
+                </p>
+              )}
+              <a
+                href={installningar.sponsorLank}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brass-bright underline underline-offset-4"
+              >
+                Läs mer om Gräsroten
+              </a>
+            </aside>
+          )
+        }
+      </div>
+
+      <div class="min-h-[22rem] border border-ink-line">
+        <iframe
+          src={kartUrl}
+          title={`Karta till Borgen Fight Center, ${adress}`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="h-full min-h-[22rem] w-full grayscale-[35%]"></iframe>
+      </div>
+    </div>
+  </div>
+</section>

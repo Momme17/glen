@@ -1,0 +1,195 @@
+@import '@fontsource/anton/400.css';
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow/600.css';
+@import '@fontsource/barlow/700.css';
+@import 'tailwindcss';
+
+/* =========================================================================
+   Designsystem — Borgen Fight Center
+
+   Uttrycket är atletiskt och tydligt utan att bli hotfullt: klubben rekryterar
+   sjuåringar och deras föräldrar lika mycket som tävlande. Därför bygger
+   paletten på djup blåsvart och varm benvit, med mässing från kronan i
+   logotypen som enda accentfärg. Ingen rödsvart eldretorik.
+   ========================================================================= */
+
+@theme {
+  /* --- Färg ------------------------------------------------------------- */
+  --color-ink: #10141b;
+  --color-ink-soft: #1a212c;
+  --color-ink-line: #2b3442;
+  --color-bone: #f7f4ee;
+  --color-bone-dim: #e9e3d8;
+  --color-bone-line: #d6cec0;
+  --color-brass: #c8912b;
+  --color-brass-bright: #e5b95d;
+
+  /* Gruppfärger — används för att märka upp passen i veckoschemat.
+     Alla är kontrollerade mot vit text (AA) respektive mot benvit botten. */
+  --color-grupp-barn: #c1532b;
+  --color-grupp-ungdomar: #9a6b12;
+  --color-grupp-juniorer: #1f6a5f;
+  --color-grupp-vuxna1: #2f5484;
+  --color-grupp-vuxna2: #5d3d6b;
+  --color-grupp-sparring: #a1362a;
+
+  /* --- Typografi -------------------------------------------------------- */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-body: 'Barlow', system-ui, sans-serif;
+
+  --text-hero: clamp(2.75rem, 8.5vw, 6.5rem);
+  --text-hero--line-height: 0.92;
+  --text-hero--letter-spacing: -0.02em;
+
+  --text-h1: clamp(2rem, 5vw, 3.5rem);
+  --text-h1--line-height: 0.98;
+  --text-h1--letter-spacing: -0.015em;
+
+  --text-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --text-h2--line-height: 1.05;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.2;
+
+  --text-lead: clamp(1.05rem, 1.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.18em;
+
+  /* --- Rytm ------------------------------------------------------------- */
+  --spacing-section: clamp(4rem, 9vw, 8rem);
+  --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* --- Bas ----------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  /* Ankarnavigeringen får inte gömma rubriken bakom den fasta menyn. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brass);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-brass);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* Hoppa till innehåll — syns bara vid tangentbordsnavigering. */
+  .skip-link {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    translate: -50% -150%;
+    z-index: 100;
+    background: var(--color-ink);
+    color: var(--color-bone);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: translate 150ms ease;
+  }
+  .skip-link:focus {
+    translate: -50% 0;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    letter-spacing: var(--text-eyebrow--letter-spacing);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Brödtext från CMS:et (Markdoc). */
+  .prose-bfc > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-bfc h2 {
+    font-size: var(--text-h2);
+    margin-top: 1.8em;
+  }
+  .prose-bfc h3 {
+    font-size: var(--text-h3);
+    margin-top: 1.6em;
+  }
+  .prose-bfc ul {
+    list-style: disc;
+    padding-left: 1.4em;
+  }
+  .prose-bfc ol {
+    list-style: decimal;
+    padding-left: 1.4em;
+  }
+  .prose-bfc li + li {
+    margin-top: 0.4em;
+  }
+  .prose-bfc a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-brass);
+  }
+  .prose-bfc a:hover {
+    text-decoration-color: currentColor;
+  }
+  .prose-bfc strong {
+    font-weight: 600;
+  }
+  .prose-bfc blockquote {
+    border-left: 3px solid var(--color-brass);
+    padding-left: 1.25rem;
+    font-style: italic;
+  }
+}

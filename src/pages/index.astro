@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import OmOss from '../components/OmOss.astro';
+import Instruktorer from '../components/Instruktorer.astro';
+import Schema from '../components/Schema.astro';
+import Priser from '../components/Priser.astro';
+import Nyheter from '../components/Nyheter.astro';
+import Kontakt from '../components/Kontakt.astro';
+import { installningar } from '../lib/innehall';
+---
+
+<Layout titel={installningar.seoTitel} beskrivning={installningar.seoBeskrivning}>
+  <Hero />
+  <OmOss />
+  <Instruktorer />
+  <Schema />
+  <Priser />
+  <Nyheter antal={6} />
+  <Kontakt />
+</Layout>

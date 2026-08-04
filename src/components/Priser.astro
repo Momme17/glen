@@ -1,0 +1,88 @@
+---
+import Rubrik from './Rubrik.astro';
+import Knapp from './Knapp.astro';
+import {
+  installningar,
+  aktivTermin,
+  priserForTermin,
+  kronor,
+  FARG_KLASS,
+} from '../lib/innehall';
+
+const terminspriser = priserForTermin(aktivTermin?.slug);
+---
+
+<section id="priser" class="bg-bone py-[var(--spacing-section)]">
+  <div class="shell">
+    <Rubrik etikett="Avgifter">
+      Priser
+      <p slot="under">
+        Vi är en ideell förening, så avgifterna täcker lokal, utrustning och
+        tävlingsverksamhet — ingenting annat. Ingen tjänar pengar på din träning.
+      </p>
+    </Rubrik>
+
+    <div class="mt-14 grid gap-10 lg:grid-cols-[2fr_1fr] lg:gap-16">
+      <div>
+        <h3 class="eyebrow text-ink/50">
+          Terminsavgift{aktivTermin ? ` — ${aktivTermin.namn}` : ''}
+        </h3>
+
+        <ul class="mt-5 border-t border-bone-line">
+          {
+            terminspriser.map(({ slug, belopp, periodEtikett, gruppData }) => (
+              <li
+                class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-bone-line py-5"
+                data-pris={slug}
+              >
+                <div class="flex items-baseline gap-2.5">
+                  <span
+                    class={`h-3 w-3 shrink-0 translate-y-px ${FARG_KLASS[gruppData.farg].prick}`}
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p class="font-display text-lg uppercase">{gruppData.namn}</p>
+                    <p class="text-sm text-ink/55">{gruppData.aldersspann}</p>
+                  </div>
+                </div>
+                <p class="text-right">
+                  <span class="font-display text-2xl tabular-nums">
+                    {kronor(belopp)}
+                  </span>
+                  <span class="block text-sm text-ink/55">{periodEtikett}</span>
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="h-fit border-t-4 border-brass bg-bone-dim p-8">
+        <h3 class="eyebrow text-ink/50">Medlemsavgift</h3>
+        <p class="mt-3">
+          <span class="font-display text-hero block leading-none">
+            {kronor(installningar.medlemsavgift)}
+          </span>
+          <span class="mt-2 block text-sm text-ink/60">per år</span>
+        </p>
+
+        {
+          installningar.prisNotering && (
+            <p class="mt-6 border-t border-bone-line pt-6 text-[0.95rem] text-ink/70">
+              {installningar.prisNotering}
+            </p>
+          )
+        }
+
+        <Knapp
+          href={installningar.sportadminUrl}
+          variant="ljus"
+          extern
+          class="mt-7 w-full"
+        >
+          Anmäl dig
+        </Knapp>
+      </div>
+    </div>
+  </div>
+</section>

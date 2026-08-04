@@ -1,0 +1,42 @@
+---
+interface Props {
+  /** Liten etikett ovanför rubriken. */
+  etikett?: string;
+  niva?: 1 | 2;
+  id?: string;
+  class?: string;
+  ljus?: boolean;
+}
+
+const {
+  etikett,
+  niva = 2,
+  id,
+  class: klass = '',
+  ljus = false,
+} = Astro.props;
+
+const Tag = niva === 1 ? 'h1' : 'h2';
+---
+
+<div class={`max-w-3xl ${klass}`}>
+  {
+    etikett && (
+      <p class={`eyebrow mb-4 ${ljus ? 'text-brass-bright' : 'text-brass'}`}>
+        {etikett}
+      </p>
+    )
+  }
+  <Tag id={id} class={niva === 1 ? 'text-hero' : 'text-h1'}>
+    <slot />
+  </Tag>
+  {
+    Astro.slots.has('under') && (
+      <div
+        class={`text-lead mt-6 ${ljus ? 'text-bone/80' : 'text-ink/75'}`}
+      >
+        <slot name="under" />
+      </div>
+    )
+  }
+</div>

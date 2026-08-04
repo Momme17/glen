@@ -1,0 +1,34 @@
+---
+import Logotyp from './Logotyp.astro';
+import { installningar } from '../lib/innehall';
+
+const ar = new Date().getFullYear();
+---
+
+<footer class="border-t border-ink-line bg-ink text-bone/70">
+  <div
+    class="shell flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="flex items-center gap-4 text-bone">
+      <Logotyp />
+      <span class="text-sm text-bone/60">
+        {installningar.gatuadress}, {installningar.postnummer}
+        {installningar.ort}
+      </span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+      <a
+        href={`mailto:${installningar.epost}`}
+        class="transition-colors hover:text-brass-bright">{installningar.epost}</a
+      >
+      <a href="/keystatic" class="text-bone/40 transition-colors hover:text-bone"
+        >Redigera webbplatsen</a
+      >
+    </div>
+  </div>
+
+  <div class="shell border-t border-ink-line/60 py-5 text-xs text-bone/40">
+    © {ar} Borgen Fight Center — ideell förening
+  </div>
+</footer>

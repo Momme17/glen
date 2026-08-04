@@ -1,0 +1,41 @@
+---
+/**
+ * Ordmärke med krona.
+ *
+ * OBS: detta är en platshållare byggd i kod så att sajten fungerar direkt.
+ * Klubbens riktiga logotyp finns som SVG i svart/färg/vit — lägg filerna i
+ * `src/assets/logo/` och byt ut innehållet nedan mot en <Image>/<img>.
+ */
+interface Props {
+  class?: string;
+  /** Sätt till false i sammanhang där texten redan finns i närheten. */
+  visaText?: boolean;
+}
+
+const { class: klass = '', visaText = true } = Astro.props;
+---
+
+<span class={`inline-flex items-center gap-2.5 ${klass}`}>
+  <svg
+    viewBox="0 0 32 24"
+    class="h-6 w-8 shrink-0"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M2 21h28M3.5 18.5 1 4l8.5 6L16 1.5 22.5 10 31 4l-2.5 14.5h-25Z"
+      fill="currentColor"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+  {
+    visaText && (
+      <span class="font-display text-lg leading-none tracking-wide uppercase">
+        Borgen
+      </span>
+    )
+  }
+</span>

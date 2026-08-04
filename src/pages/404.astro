@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Knapp from '../components/Knapp.astro';
+---
+
+<Layout
+  titel="Sidan finns inte — Borgen Fight Center"
+  beskrivning="Sidan du letade efter finns inte."
+>
+  <section class="bg-ink py-[var(--spacing-section)] text-bone">
+    <div class="shell max-w-2xl">
+      <p class="eyebrow text-brass-bright">404</p>
+      <h1 class="text-h1 mt-4">Sidan finns inte</h1>
+      <p class="text-lead mt-6 text-bone/75">
+        Länken kan vara gammal, eller så har sidan flyttat. Prova startsidan —
+        där finns schema, priser och kontaktuppgifter.
+      </p>
+      <Knapp href="/" class="mt-9">Till startsidan</Knapp>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,133 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Knapp from '../../components/Knapp.astro';
+import { svensktDatum, isoDatum, installningar } from '../../lib/innehall';
+
+export async function getStaticPaths() {
+  // Endast publicerade nyheter får en sida. Utkast lämnas obyggda.
+  const nyheter = await getCollection('nyheter', ({ data }) => data.publicerad);
+
+  return nyheter.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'nyheter'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Nästa och föregående nyhet, för navigering i botten.
+const alla = (await getCollection('nyheter', ({ data }) => data.publicerad)).sort(
+  (a, b) => b.data.datum.getTime() - a.data.datum.getTime(),
+);
+const index = alla.findIndex((p) => p.id === post.id);
+const nyare = index > 0 ? alla[index - 1] : undefined;
+const aldre = index < alla.length - 1 ? alla[index + 1] : undefined;
+---
+
+<Layout
+  titel={`${post.data.titel} — Borgen Fight Center`}
+  beskrivning={post.data.ingress}
+  typ="article"
+  publicerad={post.data.datum}
+>
+  <article class="bg-bone">
+    <header class="bg-ink pt-[var(--spacing-section)] pb-16 text-bone">
+      <div class="shell max-w-3xl">
+        <a
+          href="/#nyheter"
+          class="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-bone/60 transition-colors hover:text-brass-bright"
+        >
+          <svg
+            viewBox="0 0 16 16"
+            class="h-3.5 w-3.5"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M14 8H3M7 4 3 8l4 4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+          Alla nyheter
+        </a>
+
+        <time datetime={isoDatum(post.data.datum)} class="eyebrow text-brass-bright">
+          {svensktDatum(post.data.datum)}
+        </time>
+
+        <h1 class="text-h1 mt-4 text-balance">{post.data.titel}</h1>
+
+        <p class="text-lead mt-6 text-bone/75">{post.data.ingress}</p>
+      </div>
+    </header>
+
+    {
+      post.data.omslagsbild && (
+        <div class="shell -mt-10 max-w-3xl">
+          <img
+            src={post.data.omslagsbild}
+            alt={post.data.bildtext || ''}
+            class="w-full object-cover"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+
+    <div class="shell max-w-3xl py-16">
+      <div class="prose-bfc text-[1.0625rem] text-ink/85">
+        <Content />
+      </div>
+
+      <div class="mt-14 border-t border-bone-line pt-10">
+        <p class="text-h3">Vill du börja träna?</p>
+        <p class="mt-2 text-ink/70">
+          Nya medlemmar får prova gratis i en vecka.
+        </p>
+        <Knapp
+          href={installningar.sportadminUrl}
+          variant="ljus"
+          extern
+          class="mt-5"
+        >
+          {installningar.ctaText}
+        </Knapp>
+      </div>
+    </div>
+
+    {
+      (nyare || aldre) && (
+        <nav
+          aria-label="Fler nyheter"
+          class="border-t border-bone-line bg-bone-dim"
+        >
+          <div class="shell grid gap-px bg-bone-line sm:grid-cols-2">
+            {[
+              { post: nyare, etikett: 'Nyare' },
+              { post: aldre, etikett: 'Äldre' },
+            ]
+              .filter((x) => x.post)
+              .map(({ post: p, etikett }) => (
+                <a
+                  href={`/nyheter/${p!.id}/`}
+                  class="group bg-bone-dim p-7 transition-colors hover:bg-ink hover:text-bone"
+                >
+                  <span class="eyebrow text-brass">{etikett}</span>
+                  <span class="text-h3 mt-2 block">{p!.data.titel}</span>
+                </a>
+              ))}
+          </div>
+        </nav>
+      )
+    }
+  </article>
+</Layout>

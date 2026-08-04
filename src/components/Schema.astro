@@ -1,0 +1,104 @@
+---
+import Rubrik from './Rubrik.astro';
+import {
+  aktivTermin,
+  schemaForTermin,
+  traningsgrupper,
+  FARG_KLASS,
+} from '../lib/innehall';
+
+const dagar = schemaForTermin(aktivTermin?.slug);
+---
+
+<section id="schema" class="bg-ink py-[var(--spacing-section)] text-bone">
+  <div class="shell">
+    <Rubrik etikett="Träningstider" ljus>
+      Schema
+      <p slot="under">
+        {
+          aktivTermin
+            ? `Tiderna gäller ${aktivTermin.namn.toLowerCase()}.`
+            : 'Aktuella träningstider.'
+        }
+        Är du osäker på vilken grupp du hör hemma i? Hör av dig så hjälper vi dig
+        rätt.
+      </p>
+    </Rubrik>
+
+    <!-- Veckoschema. Varje dag är en egen tabell, vilket gör att layouten
+         staplar naturligt på mobil utan att tappa tabellsemantiken. -->
+    <div class="mt-14 grid gap-px border border-ink-line bg-ink-line md:grid-cols-2">
+      {
+        dagar.map((dag) => (
+          <div class="bg-ink p-6 sm:p-7">
+            <h3 class="text-h3 text-brass-bright">{dag.label}</h3>
+
+            <table class="mt-4 w-full border-collapse text-left">
+              <caption class="sr-only">
+                Träningspass på {dag.label.toLowerCase()}
+              </caption>
+              <thead class="sr-only">
+                <tr>
+                  <th scope="col">Tid</th>
+                  <th scope="col">Grupp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dag.rader.map((rad) => (
+                  <tr class="border-t border-ink-line/70 align-baseline">
+                    <th
+                      scope="row"
+                      class="w-32 py-3 pr-4 font-body text-sm font-semibold tabular-nums whitespace-nowrap text-bone/90"
+                    >
+                      {rad.start}–{rad.slut}
+                    </th>
+                    <td class="py-3">
+                      <ul class="flex flex-wrap gap-x-4 gap-y-1.5">
+                        {rad.grupper.map((g) => (
+                          <li class="flex items-center gap-2 text-sm text-bone/80">
+                            <span
+                              class={`h-2.5 w-2.5 shrink-0 ${FARG_KLASS[g.farg].prick}`}
+                              aria-hidden="true"
+                            />
+                            {g.namn}
+                          </li>
+                        ))}
+                      </ul>
+                      {rad.noteringar.map((n) => (
+                        <p class="mt-1.5 text-xs text-bone/45">{n}</p>
+                      ))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Gruppbeskrivningar -->
+    <h3 class="text-h2 mt-20">Våra grupper</h3>
+    <ul class="mt-8 grid gap-px border border-ink-line bg-ink-line sm:grid-cols-2 lg:grid-cols-3">
+      {
+        traningsgrupper.map((g) => (
+          <li class="bg-ink p-7">
+            <div class="flex items-baseline gap-2.5">
+              <span
+                class={`h-3 w-3 shrink-0 translate-y-px ${FARG_KLASS[g.farg].prick}`}
+                aria-hidden="true"
+              />
+              <h4 class="text-h3">{g.namn}</h4>
+            </div>
+            <p class="mt-1.5 pl-[1.4rem] text-sm font-semibold tracking-wide text-brass-bright">
+              {g.aldersspann}
+            </p>
+            <p class="mt-3 pl-[1.4rem] text-[0.95rem] text-bone/70">
+              {g.kortBeskrivning}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

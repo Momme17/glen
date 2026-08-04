@@ -1,0 +1,60 @@
+---
+import Rubrik from './Rubrik.astro';
+import { installningar } from '../lib/innehall';
+---
+
+<section id="om-oss" class="bg-bone py-[var(--spacing-section)]">
+  <div class="shell grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
+    <div>
+      <Rubrik etikett="Vilka vi är">{installningar.omRubrik}</Rubrik>
+      <div class="prose-bfc text-lead mt-8 text-ink/80">
+        {
+          installningar.omText
+            .split(/\n{2,}/)
+            .map((stycke) => <p>{stycke}</p>)
+        }
+      </div>
+    </div>
+
+    <aside
+      class="h-fit border-t-4 border-brass bg-ink p-8 text-bone lg:sticky lg:top-28"
+      aria-labelledby="trygghet-rubrik"
+    >
+      <div class="mb-5 flex items-center gap-3 text-brass-bright">
+        <svg
+          viewBox="0 0 24 24"
+          class="h-7 w-7 shrink-0"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M12 2.5 4 6v6c0 4.5 3.4 8.3 8 9.5 4.6-1.2 8-5 8-9.5V6l-8-3.5Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linejoin="round"></path>
+          <path
+            d="m8.75 12 2.25 2.25 4.25-4.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        <p class="eyebrow">Trygghet</p>
+      </div>
+
+      <h3 id="trygghet-rubrik" class="text-h2">
+        {installningar.trygghetRubrik}
+      </h3>
+
+      <div class="prose-bfc mt-5 text-bone/75">
+        {
+          installningar.trygghetText
+            .split(/\n{2,}/)
+            .map((stycke) => <p>{stycke}</p>)
+        }
+      </div>
+    </aside>
+  </div>
+</section>

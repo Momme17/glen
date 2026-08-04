@@ -1,0 +1,54 @@
+---
+import Knapp from './Knapp.astro';
+import { installningar, aktivTermin } from '../lib/innehall';
+---
+
+<section class="relative overflow-hidden bg-ink text-bone">
+  <!-- Dekorativ kronsiluett, bakgrund. -->
+  <svg
+    class="pointer-events-none absolute -top-16 -right-24 h-[34rem] w-[34rem] text-bone/[0.035]"
+    viewBox="0 0 32 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M2 21h28M3.5 18.5 1 4l8.5 6L16 1.5 22.5 10 31 4l-2.5 14.5h-25Z"
+      fill="currentColor"></path>
+  </svg>
+
+  <div class="shell relative py-[var(--spacing-section)]">
+    <ul class="mb-8 flex flex-wrap gap-2.5" aria-label="Discipliner">
+      {
+        installningar.discipliner.map((d) => (
+          <li class="border border-ink-line px-3.5 py-1.5 text-xs font-semibold tracking-[0.14em] text-bone/70 uppercase">
+            {d}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h1 class="text-hero max-w-5xl text-balance">
+      {installningar.heroRubrik}
+    </h1>
+
+    <p class="text-lead mt-8 max-w-2xl text-bone/75">
+      {installningar.heroText}
+    </p>
+
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <Knapp href={installningar.sportadminUrl} extern>
+        {installningar.ctaText}
+      </Knapp>
+      <Knapp href="#schema" variant="sekundar">Se schemat</Knapp>
+    </div>
+
+    {
+      aktivTermin && (
+        <p class="mt-10 border-l-2 border-brass pl-4 text-sm text-bone/55">
+          Just nu kör vi <strong class="font-semibold text-bone/80">{aktivTermin.namn}</strong>.
+          Nya medlemmar är välkomna att prova på under hela terminen.
+        </p>
+      )
+    }
+  </div>
+</section>
