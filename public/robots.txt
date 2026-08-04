@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Keystatic-adminet är inget innehåll och ska inte indexeras.
+Disallow: /keystatic
+Disallow: /api/keystatic
+
+Sitemap: https://borgenfightcenter.se/sitemap-index.xml
